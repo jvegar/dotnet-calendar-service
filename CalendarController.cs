@@ -16,9 +16,7 @@ namespace Calendar
         {
             graphClient = client;
         }
-
-        //private static string userIdAppSet = WebConfigurationManager.AppSettings["userId"].ToString();
-        //private static string userIdAppSet = "jose.vega@certero.com.pe";
+        
         /// <summary>
         /// Schedules an event.
         /// 
@@ -68,8 +66,7 @@ namespace Calendar
             Location location = new Location {                
                 DisplayName = locationName                
             };
-
-            //IEnumerable<string> categories = new List<string>() { "Red category" };
+            
             Collection<String> categoriesCol = new Collection<String>();
             categoriesCol.Add(categoryName);
             IEnumerable<string> categories = categoriesCol as IEnumerable<String>;

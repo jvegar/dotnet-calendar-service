@@ -13,23 +13,18 @@ namespace CalendarService
     [ServiceContract]
     public interface IService1
     {
-
         [OperationContract]
         [WebInvoke(UriTemplate = "/ScheduleEventAsync",
                   Method = "POST",
                    RequestFormat = WebMessageFormat.Json,
                    ResponseFormat = WebMessageFormat.Json)]
         Task<String> ScheduleEventAsync(Event e);
-
-        // TODO: Add your service operations here
     }
-
 
     // Use a data contract as illustrated in the sample below to add composite types to service operations.
     [DataContract]
     public class Event
     {
-        //string subject, string startTime, string endTime, string attendeeEmail
         [DataMember]
         public string subject { get; set; }
         [DataMember]

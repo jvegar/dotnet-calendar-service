@@ -16,13 +16,9 @@ namespace Helpers
         private static string clientIdAppSet = WebConfigurationManager.AppSettings["clientId"].ToString();
         private static string tenantIdAppSet = WebConfigurationManager.AppSettings["tenantId"].ToString();
         private static string clientSecretAppSet = WebConfigurationManager.AppSettings["clientSecret"].ToString();
-        //private static string clientIdAppSet = "c121ace1-fad9-4972-b358-53e95e392098";
-        //private static string tenantIdAppSet = "62fe53e2-fd62-4671-ba21-28e6d245411b";
-        //private static string clientSecretAppSet = "qcjKHT40[]#cmmfLAPS852^";
-        private static string[] scopes = {
-            "https://graph.microsoft.com/User.Read",
-            "https://graph.microsoft.com/Calendars.ReadWrite"
-        };
+        private static string authorityFormatAppSet = WebConfigurationManager.AppSettings["authorityFormat"].ToString();
+        private static string msGraphScopeAppSet = WebConfigurationManager.AppSettings["msGraphScope"].ToString();
+        private static string redirectUriAppSet = WebConfigurationManager.AppSettings["redirectUri"].ToString();
 
         private static PublicClientApplication identityClientApp = new PublicClientApplication(clientIdAppSet);
         private static GraphServiceClient graphClient = null;
@@ -44,10 +40,10 @@ namespace Helpers
                                 {
                                     //var token = authResult!=  null ? authResult.AccessToken : await getTokenForUserAsync();
                                     string clientId = clientIdAppSet;
-                                    string authorityFormat = "https://login.microsoftonline.com/{0}/v2.0";
+                                    string authorityFormat = authorityFormatAppSet;
                                     string tenantId = tenantIdAppSet;
-                                    string msGraphScope = "https://graph.microsoft.com/.default";
-                                    string redirectUri = "https://fonafecms.certero.com.pe/calendarservice"; // Custom Redirect URI asigned in the Application Registration Portal in the native Application Platform
+                                    string msGraphScope = msGraphScopeAppSet;
+                                    string redirectUri = redirectUriAppSet; // Custom Redirect URI asigned in the Application Registration Portal in the native Application Platform
                                     string clientSecret = clientSecretAppSet;
                                     ConfidentialClientApplication daemonClient = new ConfidentialClientApplication(clientId, String.Format(authorityFormat, tenantId), redirectUri, new ClientCredential(clientSecret), null, new TokenCache());
                                     AuthenticationResult authResult = await daemonClient.AcquireTokenForClientAsync(new string[] { msGraphScope });
@@ -64,28 +60,7 @@ namespace Helpers
                 }
             }
             return graphClient;
-        }
-
-        /// <summary>
-        /// Get token for User
-        /// </summary>
-        /// <returns>Token for User</returns>
-        private static async Task<string> getTokenForUserAsync()
-        {
-            try
-            {
-                IEnumerable<IAccount> account = await identityClientApp.GetAccountsAsync();
-                authResult = await identityClientApp.AcquireTokenSilentAsync(scopes, account as IAccount);
-                return authResult.AccessToken;
-            }
-            catch (MsalUiRequiredException error)
-            {
-                // This means the AcquireTokenSilentAsync threw an exception. 
-                // This prompts the user to log in with their account so that we can get the token.
-                authResult = await identityClientApp.AcquireTokenAsync(scopes);
-                return authResult.AccessToken;
-            }
-        }
+        }        
 
     }
 }
