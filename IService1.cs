@@ -28,13 +28,15 @@ namespace CalendarService
         [DataMember]
         public string subject { get; set; }
         [DataMember]
+        public string appointmentDate { get; set; }
+        [DataMember]
         public string startTime { get; set; }
         [DataMember]
         public string endTime { get; set; }
         [DataMember]
         public string organizerEmail { get; set; }
         [DataMember]
-        public string attendeeEmail { get; set; }        
+        public string attendeesEmail { get; set; }        
         [DataMember]
         public string bodyContent { get; set; }
         [DataMember]

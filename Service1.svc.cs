@@ -22,7 +22,7 @@ namespace CalendarService
         {            
             graphClient = GraphServiceClientProvider.GetAuthenticatedClient();
             cal = new CalendarController(graphClient);
-            Microsoft.Graph.Event newevent = await cal.ScheduleEventAsync(e.subject, e.startTime, e.endTime, e.organizerEmail, e.attendeeEmail, e.bodyContent, e.locationName, e.categoryName);
+            Microsoft.Graph.Event newevent = await cal.ScheduleEventAsync(e.subject, e.appointmentDate, e.startTime, e.endTime, e.organizerEmail, e.attendeesEmail, e.bodyContent, e.locationName, e.categoryName);
             if (newevent != null) return "OK";
             else return "Error";    
         }

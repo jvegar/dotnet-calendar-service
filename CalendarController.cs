@@ -28,9 +28,10 @@ namespace Calendar
         /// <param name="endTime">Duration of the meeting</param>
         /// <param name="attendeeEmail">Email of person to invite</param>
         /// <returns></returns>
-        public async Task<Event> ScheduleEventAsync(string subject, string startTime, string endTime, string organizerEmail, string attendeeEmail, string bodyContent, string locationName, string categoryName)
+        public async Task<Event> ScheduleEventAsync(string subject, string appointmentDate, string startTime, string endTime, string organizerEmail, string attendeesEmail, string bodyContent, string locationName, string categoryName)
         {
-            DateTime dateTime = DateTime.Today;
+            //DateTime dateTime = DateTime.Today;
+            DateTime dateTime = Convert.ToDateTime(appointmentDate);
 
             // set the start and end time for the event
             DateTimeTimeZone start = new DateTimeTimeZone
@@ -45,18 +46,21 @@ namespace Calendar
             };
 
             // Adds attendee to the event
-            EmailAddress email = new EmailAddress
-            {
-                Address = attendeeEmail
-            };
-
-            Attendee attendee = new Attendee
-            {
-                EmailAddress = email,
-                Type = AttendeeType.Required,
-            };
+            string[] attendeesEmailList = attendeesEmail.Split(';');
             List<Attendee> attendees = new List<Attendee>();
-            attendees.Add(attendee);
+            foreach (string attendeeEmail in attendeesEmailList)
+            {
+                EmailAddress email = new EmailAddress
+                {
+                    Address = attendeeEmail
+                };
+                Attendee attendee = new Attendee
+                {
+                    EmailAddress = email,
+                    Type = AttendeeType.Required,
+                };
+                attendees.Add(attendee);
+            }
 
             ItemBody body = new ItemBody
             {
